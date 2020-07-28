@@ -4,28 +4,6 @@
 
 <h4>Masina</h4>
 <hr />
-@*<div class="row">
-        <div class="col-md-4">
-            <form asp-action="Edit">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <input type="hidden" asp-for="Id" />
-                <div class="form-group">
-                    <label asp-for="RegistrationNumber" class="control-label"></label>
-                    <input asp-for="RegistrationNumber" class="form-control" />
-                    <span asp-validation-for="RegistrationNumber" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="ManufacturingYear" class="control-label"></label>
-                    <input asp-for="ManufacturingYear" class="form-control" />
-                    <span asp-validation-for="ManufacturingYear" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Save" class="btn btn-primary" />
-                </div>
-            </form>
-        </div>
-    </div>*@
-
 <form>
     <div class="row">
         <div class="col-md-6">
@@ -50,14 +28,7 @@
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                <label class="control-label">Sofer</label>
-                <input id="driverNameInput" class="form-control" readonly="readonly" />
-                <span class="text-danger"></span>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label class="control-label">Schimba soferul</label>
+                <label class="control-label">Soferul</label>
                 <select id="changeDriverDropdown" class="form-control" ></select>
             </div>
         </div>
