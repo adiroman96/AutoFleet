@@ -139,7 +139,7 @@ namespace AutoFleet.Controllers
 
         #region API Calls
 
-        // GET: Cars/GetCarDTO/5
+        // GET: Cars/cardto/3
         [HttpGet]
         public async Task<IActionResult> CarDTO(int? id)
         {
@@ -157,26 +157,6 @@ namespace AutoFleet.Controllers
             }
         }
 
-
-        // TODO: post carDTO
-        //// GET: Cars/GetCarDTO/5
-        //[HttpPost]
-        //public async Task<IActionResult> CarDTO(int? id)
-        //{
-        //    try
-        //    {
-        //        Car car = await GetCar(id);
-        //        Driver driver = await GetDriver(car); // driver of the car or null
-        //        CarDTO carDTO = CarDTOMapper.CarAndDriverToCarDTO(car, driver);
-
-        //        return Json(carDTO);
-
-        //    }
-        //    catch (ObjectNotFoundException)
-        //    {
-        //        return NotFound();
-        //    }
-        //}
         #endregion
 
 

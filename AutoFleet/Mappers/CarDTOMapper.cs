@@ -37,14 +37,5 @@ namespace AutoFleet.Mappers
 
             return carDTO;
         }
-
-        //public static Car CarDTOToCar(CarDTO carDTO)
-        //{
-        //    var car = new Car();
-        //    car.Id = carDTO.Id;
-        //    car.ManufacturingYear = carDTO.CarManufacturingYear;
-        //    car.RegistrationNumber = carDTO.CarRegistrationNumber;
-        //    return car;
-        //}
     }
 }
