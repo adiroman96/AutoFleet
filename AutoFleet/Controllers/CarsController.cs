@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using AutoFleet.Data;
 using AutoFleet.Models;
 using Microsoft.AspNetCore.Authorization;
+using AutoFleet.Dtos;
+using System.Security.Cryptography.X509Certificates;
+using AutoFleet.Mappers;
 
 namespace AutoFleet.Controllers
 {
@@ -25,25 +28,7 @@ namespace AutoFleet.Controllers
         public async Task<IActionResult> Index()
         {
             return View(await _context.Cars.ToListAsync());
-        }
-
-        // GET: Cars/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var car = await _context.Cars
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (car == null)
-            {
-                return NotFound();
-            }
-
-            return View(car);
-        }
+        }        
 
         // GET: Cars/Create
         public IActionResult Create()
@@ -150,6 +135,73 @@ namespace AutoFleet.Controllers
         private bool CarExists(int id)
         {
             return _context.Cars.Any(e => e.Id == id);
+        }
+
+        #region API Calls
+
+        // GET: Cars/GetCarDTO/5
+        [HttpGet]
+        public async Task<IActionResult> CarDTO(int? id)
+        {
+            try
+            {
+                Car car = await GetCar(id);
+                Driver driver = await GetDriver(car); // driver of the car or null
+                CarDTO carDTO = CarDTOMapper.CarAndDriverToCarDTO(car, driver);
+
+                return Json(carDTO);
+
+            } catch (ObjectNotFoundException)
+            {
+                return NotFound();
+            }
+        }
+
+
+        // TODO: post carDTO
+        //// GET: Cars/GetCarDTO/5
+        //[HttpPost]
+        //public async Task<IActionResult> CarDTO(int? id)
+        //{
+        //    try
+        //    {
+        //        Car car = await GetCar(id);
+        //        Driver driver = await GetDriver(car); // driver of the car or null
+        //        CarDTO carDTO = CarDTOMapper.CarAndDriverToCarDTO(car, driver);
+
+        //        return Json(carDTO);
+
+        //    }
+        //    catch (ObjectNotFoundException)
+        //    {
+        //        return NotFound();
+        //    }
+        //}
+        #endregion
+
+
+        public async Task<Car> GetCar(int? id)
+        {
+            if (id == null)
+            {
+                throw new ObjectNotFoundException();
+            }
+
+            Car car = await _context.Cars.FirstOrDefaultAsync(m => m.Id == id);
+
+            if (car == null)
+            {
+                throw new ObjectNotFoundException();
+            }
+
+            return car;
+        }
+
+        public async Task<Driver> GetDriver(Car car)
+        {
+            Driver driver = await _context.Drivers.FirstOrDefaultAsync(d => d.Cars.Contains<Car>(car));
+
+            return driver;
         }
     }
 }

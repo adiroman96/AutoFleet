@@ -151,5 +151,24 @@ namespace AutoFleet.Controllers
         {
             return _context.Drivers.Any(e => e.Id == id);
         }
+
+        #region API Calls
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            return Json(new { data = await _context.Drivers.ToListAsync() });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetDriver(int id)
+        {
+            var driver = await _context.Drivers.FirstOrDefaultAsync(u => u.Id == id);
+            if (driver == null)
+            {
+                return NotFound();
+            }
+            return Json(driver);
+        }
+        #endregion
     }
 }

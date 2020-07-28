@@ -1,39 +1,146 @@
-﻿@model AutoFleet.Models.Car
-
-@{
+﻿@{
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
-
-<h4>Car</h4>
+<h4>Masina</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
+@*<div class="row">
+        <div class="col-md-4">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+                <div class="form-group">
+                    <label asp-for="RegistrationNumber" class="control-label"></label>
+                    <input asp-for="RegistrationNumber" class="form-control" />
+                    <span asp-validation-for="RegistrationNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ManufacturingYear" class="control-label"></label>
+                    <input asp-for="ManufacturingYear" class="form-control" />
+                    <span asp-validation-for="ManufacturingYear" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>*@
+
+<form>
+    <div class="row">
+        <div class="col-md-6">
             <div class="form-group">
-                <label asp-for="RegistrationNumber" class="control-label"></label>
-                <input asp-for="RegistrationNumber" class="form-control" />
-                <span asp-validation-for="RegistrationNumber" class="text-danger"></span>
+                <label class="control-label">Numar inmatriculare</label>
+                <input id="registrationNumberInput" class="form-control" />
+                <span class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="ManufacturingYear" class="control-label"></label>
-                <input asp-for="ManufacturingYear" class="form-control" />
-                <span asp-validation-for="ManufacturingYear" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">An fabricatie</label>
+                <input id="manufacturingYearInput" class="form-control" />
+                <span class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">Sofer</label>
+                <input id="driverNameInput" class="form-control" readonly="readonly" />
+                <span class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">Schimba soferul</label>
+                <select id="changeDriverDropdown" class="form-control" ></select>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">Ultimul ITP</label>
+                <input id="lastITPInput" class="form-control" />
+                <span class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">Expira la</label>
+                <input id="expirationDateITPInput" class="form-control" readonly="readonly" />
+                <span class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">Ultimul RCA</label>
+                <input id="lastRCAInput" class="form-control" />
+                <span class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">Expira la</label>
+                <input id="expirationDateRCAInput" class="form-control" readonly="readonly" />
+                <span class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">Ultimul CASCO</label>
+                <input id="lastCascoInput" class="form-control" />
+                <span class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">Expira la</label>
+                <input id="expirationDateCascoInput" class="form-control" readonly="readonly" />
+                <span class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">Ultima Rovinieta</label>
+                <input id="lastRovinietaInput" class="form-control" />
+                <span class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label">Expira la</label>
+                <input id="expirationDateRovinietaInput" class="form-control" readonly="readonly" />
+                <span class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <input type="submit" value="Save" class="btn btn-primary" />
+    </div>
+</form>
 
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/car.js"></script>
 }

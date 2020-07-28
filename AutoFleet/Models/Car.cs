@@ -15,21 +15,10 @@ namespace AutoFleet.Models
         public string RegistrationNumber { get; set; }
 
         [Required]
-        [Range(1880, 9999)]
+        [Range(1980, 9999)]
         public int ManufacturingYear
         {
-            get
-            {
-                return ManufacturingYear;
-            }
-            set
-            {
-                if (value < 1880 || value > DateTime.Now.Year)
-                {
-                    throw new ArgumentOutOfRangeException("ManufacturingYear", "ManufacturingYear must be a value between 1880 and 9999");
-                }
-                ManufacturingYear = value;
-            }
+            get; set;
         }
 
         public List<Insurance> Insurances { get; set; } = new List<Insurance>();
