@@ -20,6 +20,6 @@ namespace AutoFleet.Dtos
 
         public string DriverEmail { get; set; }
 
-        public List<Insurance> insurances { get; set; } = new List<Insurance>();
+        public List<Insurance> Insurances { get; set; } = new List<Insurance>();
     }
 }

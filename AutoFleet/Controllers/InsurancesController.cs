@@ -107,6 +107,6 @@ namespace AutoFleet.Controllers
         private bool InsuranceExists(int id)
         {
             return _context.Insurances.Any(e => e.Id == id);
-        }
+        }        
     }
 }

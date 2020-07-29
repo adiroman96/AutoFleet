@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using AutoFleet.Dtos;
 using System.Security.Cryptography.X509Certificates;
 using AutoFleet.Mappers;
+using System.Globalization;
 
 namespace AutoFleet.Controllers
 {
@@ -168,6 +169,7 @@ namespace AutoFleet.Controllers
             }
 
             Car car = await _context.Cars.FirstOrDefaultAsync(m => m.Id == id);
+            var insurances = _context.Insurances.ToList<Insurance>();
 
             if (car == null)
             {
@@ -182,6 +184,34 @@ namespace AutoFleet.Controllers
             Driver driver = await _context.Drivers.FirstOrDefaultAsync(d => d.Cars.Contains<Car>(car));
 
             return driver;
+        }
+
+        //public async Task<Driver> GetInsurances(Car car)
+        //{
+        //    Driver driver = await _context.Insurances.Where<Insurance>(i => i.Id.Equals(car.))
+
+        //    return driver;
+        //}
+
+        [HttpGet]
+        public async Task<IActionResult> CreateMock()
+        {
+
+            Car car = new Car();
+            car.ManufacturingYear = 2019;
+            car.RegistrationNumber = "SB" + "000" + "AAA";
+
+            CASCO itp = new CASCO();
+
+            itp.LastRenewal = new DateTime(2019, 01, 01);
+            car.Insurances.Add(itp);
+
+            _context.Add(car);
+            _context.Add(itp);
+
+
+            await _context.SaveChangesAsync();
+            return Json("Obiecte adaugate");
         }
     }
 }

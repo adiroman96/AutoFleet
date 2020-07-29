@@ -8,20 +8,23 @@ namespace AutoFleet.Models
 {
     public class Insurance
     {
+        private DateTime lastRenewal;        
+        
         [Key]
         public int Id { get; set; }
+
+        [Display(Name = "Tip")]
+        public string TypeOfInsurance;
 
         [Required]
         [Display(Name = "Ultima reinnoire")]
         public DateTime LastRenewal
         {
-            get
-            {
-                return LastRenewal;
-            }
+            get => lastRenewal;
+            
             set
             {
-                LastRenewal = value;
+                lastRenewal = value;
                 ExpirationDate = value.AddYears(Availability);
             }
         }

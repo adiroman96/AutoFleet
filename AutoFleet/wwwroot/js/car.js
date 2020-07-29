@@ -25,10 +25,11 @@ function fillFields(idCar) {
                 }
 
                 // Examine the text in the response
-                response.json().then(function (data) {
-                    registrationNumberInput.value = data.carRegistrationNumber;
-                    manufacturingYearInput.value = data.carManufacturingYear;
-                    prepareDriverDropdown(data.idDriver, data.driverName, data.driverEmail);
+                response.json().then(function (carDto) {
+                    registrationNumberInput.value = carDto.carRegistrationNumber;
+                    manufacturingYearInput.value = carDto.carManufacturingYear;
+                    prepareDriverDropdown(carDto.idDriver, carDto.driverName, carDto.driverEmail);
+                    createInsurancesTable(carDto.insurances);
                 });
             }
         )
@@ -82,4 +83,16 @@ function prepareDriverDropdown(idDriver, driverName, driverEmail) {
         .catch(function (err) {
             console.log('Fetch Error :-S', err); // ToDo: make it give a nice error on the page
         });
+}
+
+/*
+ * Creates a table of <div> with car.insurance
+ * each row contains: LastRenewal, ExpirationDate
+ */
+function createInsurancesTable(insurances) {
+    let insurancesTbl = document.getElementById("insuracesTable");
+
+    for (var i = 0; i < insurances.length; i++) {
+        console.log(insurances[i].lastRenewal + " " + insurances[i].expirationDate);
+    }
 }

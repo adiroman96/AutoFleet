@@ -33,7 +33,7 @@ namespace AutoFleet.Mappers
             }
 
             // setting Insurances
-            carDTO.insurances = car.Insurances;
+            carDTO.Insurances = car.Insurances;
 
             return carDTO;
         }

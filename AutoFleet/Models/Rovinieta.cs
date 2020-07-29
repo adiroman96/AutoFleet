@@ -7,6 +7,17 @@ namespace AutoFleet.Models
 {
     public class Rovinieta : Insurance
     {
+        private string typeOfInsurance;
+
         public override int Availability { get; set; } = 1;
+
+        public new string TypeOfInsurance
+        {
+            get => typeOfInsurance;
+            set
+            {
+                typeOfInsurance = "Rovinieta";
+            }
+        }
     }
 }

@@ -17,5 +17,10 @@ namespace AutoFleet.Data
         public DbSet<Driver> Drivers { get; set; }
         public DbSet<Car> Cars { get; set; }
         public DbSet<Insurance> Insurances { get; set; }
+        public DbSet<ITP> Itps { get; set; }
+        public DbSet<CASCO> Cascos { get; set; }
+        public DbSet<Rca> Rcas { get; set; }
+        public DbSet<Rovinieta> Rovinietas { get; set; }
+
     }
 }
