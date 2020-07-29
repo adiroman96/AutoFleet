@@ -8,15 +8,18 @@ namespace AutoFleet.Models
 {
     public class Insurance
     {
-        private DateTime lastRenewal;        
+        private DateTime lastRenewal;
+        private string typeOfInsurance;
         
         [Key]
         public int Id { get; set; }
 
         [Display(Name = "Tip")]
-        public string TypeOfInsurance;
+        public string TypeOfInsurance {
+            get => typeOfInsurance;
+            protected set => typeOfInsurance = value;
+        }
 
-        [Required]
         [Display(Name = "Ultima reinnoire")]
         public DateTime LastRenewal
         {
@@ -29,10 +32,12 @@ namespace AutoFleet.Models
             }
         }
 
+        // ExpirationDate is readonly as is calculated using the availability
         [Display(Name = "Data expirare")]
         public DateTime ExpirationDate { get; private set; }
 
+        // public+recorded for each insurance because the availability can change in time as a scpecific car gets older
         [Display(Name = "Valabilitate")]
-        public virtual int Availability { get; set; }
+        public int Availability { get; set; }
     }
 }

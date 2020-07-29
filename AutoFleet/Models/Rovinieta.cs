@@ -6,18 +6,11 @@ using System.Threading.Tasks;
 namespace AutoFleet.Models
 {
     public class Rovinieta : Insurance
-    {
-        private string typeOfInsurance;
-
-        public override int Availability { get; set; } = 1;
-
-        public new string TypeOfInsurance
+    {        
+        public Rovinieta()
         {
-            get => typeOfInsurance;
-            set
-            {
-                typeOfInsurance = "Rovinieta";
-            }
+            this.TypeOfInsurance = "Rovinieta";
+            this.Availability = 1;
         }
     }
 }

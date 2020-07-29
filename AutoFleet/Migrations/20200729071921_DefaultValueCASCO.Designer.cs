@@ -4,14 +4,16 @@ using AutoFleet.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace AutoFleet.Data.Migrations
+namespace AutoFleet.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200729071921_DefaultValueCASCO")]
+    partial class DefaultValueCASCO
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -308,6 +310,10 @@ namespace AutoFleet.Data.Migrations
                 {
                     b.HasBaseType("AutoFleet.Models.Insurance");
 
+                    b.Property<string>("TypeOfInsurance")
+                        .HasColumnName("ITP_TypeOfInsurance")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasDiscriminator().HasValue("ITP");
                 });
 
@@ -315,12 +321,20 @@ namespace AutoFleet.Data.Migrations
                 {
                     b.HasBaseType("AutoFleet.Models.Insurance");
 
+                    b.Property<string>("TypeOfInsurance")
+                        .HasColumnName("Rca_TypeOfInsurance")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasDiscriminator().HasValue("Rca");
                 });
 
             modelBuilder.Entity("AutoFleet.Models.Rovinieta", b =>
                 {
                     b.HasBaseType("AutoFleet.Models.Insurance");
+
+                    b.Property<string>("TypeOfInsurance")
+                        .HasColumnName("Rovinieta_TypeOfInsurance")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasDiscriminator().HasValue("Rovinieta");
                 });

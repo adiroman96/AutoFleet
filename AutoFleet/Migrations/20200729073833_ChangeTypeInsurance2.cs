@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace AutoFleet.Data.Migrations
+namespace AutoFleet.Migrations
 {
-    public partial class RemoveCarYearConstraint : Migration
+    public partial class ChangeTypeInsurance2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

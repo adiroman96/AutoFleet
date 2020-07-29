@@ -186,28 +186,29 @@ namespace AutoFleet.Controllers
             return driver;
         }
 
-        //public async Task<Driver> GetInsurances(Car car)
-        //{
-        //    Driver driver = await _context.Insurances.Where<Insurance>(i => i.Id.Equals(car.))
-
-        //    return driver;
-        //}
-
         [HttpGet]
         public async Task<IActionResult> CreateMock()
         {
+            int nr = 30;
 
             Car car = new Car();
             car.ManufacturingYear = 2019;
-            car.RegistrationNumber = "SB" + "000" + "AAA";
+            car.RegistrationNumber = "SB" + nr + "ABC";
 
-            CASCO itp = new CASCO();
-
-            itp.LastRenewal = new DateTime(2019, 01, 01);
+            Insurance itp = new Rovinieta
+            {
+                LastRenewal = new DateTime(2019, 01, nr),
+            };
             car.Insurances.Add(itp);
 
             _context.Add(car);
-            _context.Add(itp);
+            //_context.Add(itp);
+
+            Driver driver = new Driver();
+            driver.Name = "Alex Mock";
+            driver.Email = "mock" + nr + "@fakedomain.com";
+            driver.Cars.Add(car);
+            _context.Add(driver);
 
 
             await _context.SaveChangesAsync();

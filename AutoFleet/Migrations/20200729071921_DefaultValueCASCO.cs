@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace AutoFleet.Data.Migrations
+namespace AutoFleet.Migrations
 {
-    public partial class AddInsuranceTypeColumn : Migration
+    public partial class DefaultValueCASCO : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

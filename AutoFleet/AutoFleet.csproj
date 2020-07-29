@@ -7,10 +7,20 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Data\Migrations\20200729055935_AddInsuranceTypeColumn2.cs" />
-    <Compile Remove="Data\Migrations\20200729055935_AddInsuranceTypeColumn2.Designer.cs" />
-    <Compile Remove="Data\Migrations\20200729060152_AddInsuranceTypeColumn3.cs" />
-    <Compile Remove="Data\Migrations\20200729060152_AddInsuranceTypeColumn3.Designer.cs" />
+    <Compile Remove="Migrations\20200729073945_ChangeTypeInsurance3.cs" />
+    <Compile Remove="Migrations\20200729073945_ChangeTypeInsurance3.Designer.cs" />
+    <Compile Remove="Migrations\20200729173459_typeCreatedInConstructorInsurance.cs" />
+    <Compile Remove="Migrations\20200729173459_typeCreatedInConstructorInsurance.Designer.cs" />
+    <Compile Remove="Migrations\20200729174803_ModifyTOInsuranceType.cs" />
+    <Compile Remove="Migrations\20200729174803_ModifyTOInsuranceType.Designer.cs" />
+    <Compile Remove="Migrations\20200729190818_RequiredTypeOfinsurance.cs" />
+    <Compile Remove="Migrations\20200729190818_RequiredTypeOfinsurance.Designer.cs" />
+    <Compile Remove="Migrations\20200729210829_CascoAvailabilityRequired.cs" />
+    <Compile Remove="Migrations\20200729210829_CascoAvailabilityRequired.Designer.cs" />
+    <Compile Remove="Migrations\20200729210946_CascoAvailabilityRequired.cs" />
+    <Compile Remove="Migrations\20200729210946_CascoAvailabilityRequired.Designer.cs" />
+    <Compile Remove="Migrations\20200729211103_CascoAvailability.cs" />
+    <Compile Remove="Migrations\20200729211103_CascoAvailability.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

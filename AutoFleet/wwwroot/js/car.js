@@ -93,6 +93,23 @@ function createInsurancesTable(insurances) {
     let insurancesTbl = document.getElementById("insuracesTable");
 
     for (var i = 0; i < insurances.length; i++) {
-        console.log(insurances[i].lastRenewal + " " + insurances[i].expirationDate);
+        console.log(insurances[i].typeOfInsurance + " " + insurances[i].lastRenewal + " " + insurances[i].expirationDate);
+
+        var element = document.createElement("div");
+        element.innerHTML = createLeftCell(insurances[i].typeOfInsurance, insurances[i].lastRenewal).toString().trim();
+
+        insurancesTbl.appendChild(element)
     }
 }
+
+function createLeftCell(typeOfInsurance, lastRenewal) {
+    return  "<div class=\"col-md-6\">" +
+                "<div class=\"form-group\">" +
+        "<label class=\"control-label\">Ultimul " + typeOfInsurance + "</label>" +
+        "<input id=\"" + typeOfInsurance + "LastRenewalInput\" class=\"form-control\" value=" + lastRenewal + "/>" +
+                    "<span class=\"text-danger\"></span>" +
+            "</div >" +
+            "</div >";    
+}
+
+

@@ -8,17 +8,10 @@ namespace AutoFleet.Models
 {
     public class Rca : Insurance
     {
-        private string typeOfInsurance;
-
-        public override int Availability { get; set; } = 1;
-
-        public new string TypeOfInsurance
+        public Rca()
         {
-            get => typeOfInsurance;
-            set
-            {
-                typeOfInsurance = "RCA";
-            }
+            this.TypeOfInsurance = "RCA";
+            this.Availability = 1;
         }
     }
 }

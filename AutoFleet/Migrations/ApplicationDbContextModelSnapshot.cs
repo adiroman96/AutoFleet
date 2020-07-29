@@ -4,16 +4,14 @@ using AutoFleet.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace AutoFleet.Data.Migrations
+namespace AutoFleet.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200729055835_AddInsuranceTypeColumn")]
-    partial class AddInsuranceTypeColumn
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -77,17 +75,26 @@ namespace AutoFleet.Data.Migrations
                     b.Property<int?>("CarId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("ExpirationDate")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("LastRenewal")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("TypeOfInsurance")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CarId");
 
                     b.ToTable("Insurances");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Insurance");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -288,6 +295,34 @@ namespace AutoFleet.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("AutoFleet.Models.CASCO", b =>
+                {
+                    b.HasBaseType("AutoFleet.Models.Insurance");
+
+                    b.HasDiscriminator().HasValue("CASCO");
+                });
+
+            modelBuilder.Entity("AutoFleet.Models.ITP", b =>
+                {
+                    b.HasBaseType("AutoFleet.Models.Insurance");
+
+                    b.HasDiscriminator().HasValue("ITP");
+                });
+
+            modelBuilder.Entity("AutoFleet.Models.Rca", b =>
+                {
+                    b.HasBaseType("AutoFleet.Models.Insurance");
+
+                    b.HasDiscriminator().HasValue("Rca");
+                });
+
+            modelBuilder.Entity("AutoFleet.Models.Rovinieta", b =>
+                {
+                    b.HasBaseType("AutoFleet.Models.Insurance");
+
+                    b.HasDiscriminator().HasValue("Rovinieta");
                 });
 
             modelBuilder.Entity("AutoFleet.Models.Car", b =>
