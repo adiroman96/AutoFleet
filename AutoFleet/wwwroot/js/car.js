@@ -90,26 +90,59 @@ function prepareDriverDropdown(idDriver, driverName, driverEmail) {
  * each row contains: LastRenewal, ExpirationDate
  */
 function createInsurancesTable(insurances) {
-    let insurancesTbl = document.getElementById("insuracesTable");
+    let form = document.getElementById("formId");
+
 
     for (var i = 0; i < insurances.length; i++) {
-        console.log(insurances[i].typeOfInsurance + " " + insurances[i].lastRenewal + " " + insurances[i].expirationDate);
+        var leftCell = document.createElement("div");
+        leftCell.setAttribute("class", "col-md-6");
+        leftCell.innerHTML = createLeftCell(insurances[i].typeOfInsurance, insurances[i].lastRenewal).toString().trim();
 
-        var element = document.createElement("div");
-        element.innerHTML = createLeftCell(insurances[i].typeOfInsurance, insurances[i].lastRenewal).toString().trim();
+        var rightCell = document.createElement("div");
+        rightCell.setAttribute("class","col-md-6");
+        rightCell.innerHTML = createRightCell(insurances[i].typeOfInsurance, insurances[i].expirationDate).toString().trim();
 
-        insurancesTbl.appendChild(element)
+        var divRow = document.createElement("div");
+        divRow.setAttribute("class", "row");
+        divRow.appendChild(leftCell);
+        divRow.appendChild(rightCell);
+        form.appendChild(divRow);
     }
+
+    form.appendChild(createFormSubmit());
 }
 
-function createLeftCell(typeOfInsurance, lastRenewal) {
-    return  "<div class=\"col-md-6\">" +
-                "<div class=\"form-group\">" +
-        "<label class=\"control-label\">Ultimul " + typeOfInsurance + "</label>" +
-        "<input id=\"" + typeOfInsurance + "LastRenewalInput\" class=\"form-control\" value=" + lastRenewal + "/>" +
-                    "<span class=\"text-danger\"></span>" +
-            "</div >" +
-            "</div >";    
+function createLeftCell(typeOfInsurance, date) {
+    return  "<div class=\"form-group\">" +
+        "<label class=\"control-label\">Ultima reinnoire pentru " + typeOfInsurance + "</label>" +
+        "<input type=\"date\" id=\"" + typeOfInsurance + "LastRenewalInput\" class=\"form-control\" value=" + getDateInQuotesFromDateTime(date) + "/>" +
+        "<span class=\"text-danger\"></span>" +
+        "</div >";
 }
 
+function createRightCell(typeOfInsurance, date) {
+    return    "<div class=\"form-group\">" +
+        "<label class=\"control-label\">Expira la</label>" +
+        "<input type=\"date\" readonly=\"readonly\" id=\"expirationDate" + typeOfInsurance + "\" class=\"form-control\" value=" + getDateInQuotesFromDateTime(date) + "/>" +
+        "<span class=\"text-danger\"></span>" +
+        "</div >";
+}
+
+
+function createFormSubmit() {
+    var formSubmitElement = document.createElement("div");
+    formSubmitElement.setAttribute("class", "form-group");
+
+    var inputElement = document.createElement("input");
+    inputElement.setAttribute("type", "submit");
+    inputElement.setAttribute("value", "Salveaza");
+    inputElement.setAttribute("class", "btn btn-primary");
+
+    formSubmitElement.appendChild(inputElement);
+    return formSubmitElement;
+}
+
+function getDateInQuotesFromDateTime(dateTime) {
+    return "\"" + dateTime.split("T")[0] + "\"";
+}
 
