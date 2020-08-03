@@ -92,20 +92,13 @@ function prepareDriverDropdown(idDriver, driverName, driverEmail) {
 function createInsurancesTable(insurances) {
     let form = document.getElementById("formId");
 
+    for (let i = 0; i < insurances.length; i++) {
 
-    for (var i = 0; i < insurances.length; i++) {
-        var leftCell = document.createElement("div");
-        leftCell.setAttribute("class", "col-md-6");
-        leftCell.innerHTML = createLeftCell(insurances[i].typeOfInsurance, insurances[i].lastRenewal).toString().trim();
-
-        var rightCell = document.createElement("div");
-        rightCell.setAttribute("class","col-md-6");
-        rightCell.innerHTML = createRightCell(insurances[i].typeOfInsurance, insurances[i].expirationDate).toString().trim();
-
-        var divRow = document.createElement("div");
+        let divRow = document.createElement("div");
         divRow.setAttribute("class", "row");
-        divRow.appendChild(leftCell);
-        divRow.appendChild(rightCell);
+
+        divRow.appendChild(createLeftCell(insurances[i].typeOfInsurance, insurances[i].lastRenewal) );
+        divRow.appendChild(createRightCell(insurances[i].typeOfInsurance, insurances[i].expirationDate) );
         form.appendChild(divRow);
     }
 
@@ -113,21 +106,66 @@ function createInsurancesTable(insurances) {
 }
 
 function createLeftCell(typeOfInsurance, date) {
-    return  "<div class=\"form-group\">" +
-        "<label class=\"control-label\">Ultima reinnoire pentru " + typeOfInsurance + "</label>" +
-        "<input type=\"date\" id=\"" + typeOfInsurance + "LastRenewalInput\" class=\"form-control\" value=" + getDateInQuotesFromDateTime(date) + "/>" +
-        "<span class=\"text-danger\"></span>" +
-        "</div >";
+    let parent = document.createElement("div");
+    parent.setAttribute("class", "col-md-5 form-group");
+
+    let lbl = document.createElement("label");
+    lbl.setAttribute("class", "control-label");
+    lbl.textContent = typeOfInsurance + " a fost realizat(a) la:";
+
+    let input = document.createElement("input");
+    input.setAttribute("id", "lastRenewalDate" + typeOfInsurance);
+    input.setAttribute("class", "form-control");
+    input.setAttribute("type", "date");
+    input.setAttribute("value", getDateInQuotesFromDateTime(date));
+
+    //for warnings:
+    let span = document.createElement("span");
+    span.setAttribute("class", "text-danger");
+
+    parent.appendChild(lbl);
+    parent.appendChild(input);
+    parent.appendChild(span);
+    return parent;
 }
 
 function createRightCell(typeOfInsurance, date) {
-    return    "<div class=\"form-group\">" +
-        "<label class=\"control-label\">Expira la</label>" +
-        "<input type=\"date\" readonly=\"readonly\" id=\"expirationDate" + typeOfInsurance + "\" class=\"form-control\" value=" + getDateInQuotesFromDateTime(date) + "/>" +
-        "<span class=\"text-danger\"></span>" +
-        "</div >";
-}
+    let parent = document.createElement("div");
+    parent.setAttribute("class", "col-md-6 form-group");
 
+    let lbl = document.createElement("label");
+    lbl.setAttribute("class", "control-label");
+    lbl.textContent = "Expira la:";
+
+
+    let div = document.createElement("div");
+    div.setAttribute("class", "input-group mb-3");
+
+    let input = document.createElement("input");
+    input.setAttribute("id", "expirationDate" + typeOfInsurance);
+    input.setAttribute("class", "form-control");
+    input.setAttribute("type", "date");
+    input.setAttribute("readonly", "readonly");
+    input.setAttribute("value", getDateInQuotesFromDateTime(date));
+
+
+    let deleteDiv = document.createElement("div");
+    deleteDiv.setAttribute("class", "input-group-append pl-4");
+    let button = document.createElement("button");
+    button.setAttribute("id", "deleteBtn");
+    button.setAttribute("class", "btn btn-danger");
+    button.setAttribute("type", "button");
+    button.innerText = "Sterge";
+    deleteDiv.appendChild(button);
+
+    div.appendChild(input);
+    div.appendChild(deleteDiv);
+
+
+    parent.appendChild(lbl);
+    parent.appendChild(div);
+    return parent;
+}
 
 function createFormSubmit() {
     var formSubmitElement = document.createElement("div");
@@ -143,6 +181,29 @@ function createFormSubmit() {
 }
 
 function getDateInQuotesFromDateTime(dateTime) {
-    return "\"" + dateTime.split("T")[0] + "\"";
+    //return "\"" + dateTime.split("T")[0] + "\"";
+    return dateTime.split("T")[0];
+
 }
 
+function createTable() {
+    let form = document.getElementById("formId");
+
+    try {
+        var table = document.getElementById('dataTable');
+        form.appendChild(table);
+
+        var rowCount = table.rows.length;
+        for (var i = 0; i < rowCount; i++) {
+            var row = table.rows[i];
+            var rowrowObj = row.cells[0].childNodes[0];
+            if (rowObj.name == btnName) {
+                table.deleteRow(i);
+                rowCount--;
+            }
+        }
+    }
+    catch (e) {
+        alert(e);
+    }
+}
