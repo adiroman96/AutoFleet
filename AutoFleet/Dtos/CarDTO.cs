@@ -8,18 +8,18 @@ namespace AutoFleet.Dtos
 {
     public class CarDTO
     {
-        public int IdCar { get; set; }
+        public int CarId { get; set; }
 
         public string CarRegistrationNumber { get; set; }
 
         public int CarManufacturingYear { get; set; }
 
-        public int? IdDriver { get; set; }
+        public int? DriverId { get; set; }
 
-        public string DriverName { get; set; }
-
-        public string DriverEmail { get; set; }
+        public string DriverText { get; set; }
 
         public List<Insurance> Insurances { get; set; } = new List<Insurance>();
+
+        public List<DriverDto> AvailableDrivers { get; set; } = new List<DriverDto>();
     }
 }

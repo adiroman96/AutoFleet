@@ -10,80 +10,80 @@ $(document).ready(function () {
     var currentURL = window.location.href;
     var idCar = currentURL.split("/Cars/Edit/")[1]; // get id of current car
 
-    fillFields(idCar); // fill known fields
+    //fillFields(idCar); // fill known fields
 });
 
 
 function fillFields(idCar) {
-    fetch('/cars/cardto/' + idCar)
-        .then(
-            function (response) {
-                if (response.status !== 200) {// ToDo: make it give a nice error on the page
-                    console.log('Looks like there was a problem. Status Code: ' +
-                        response.status);
-                    return;
-                }
+    //fetch('/cars/cardto/' + idCar)
+    //    .then(
+    //        function (response) {
+    //            if (response.status !== 200) {// ToDo: make it give a nice error on the page
+    //                console.log('Looks like there was a problem. Status Code: ' +
+    //                    response.status);
+    //                return;
+    //            }
 
-                // Examine the text in the response
-                response.json().then(function (carDto) {
-                    registrationNumberInput.value = carDto.carRegistrationNumber;
-                    manufacturingYearInput.value = carDto.carManufacturingYear;
-                    prepareDriverDropdown(carDto.idDriver, carDto.driverName, carDto.driverEmail);
-                    createInsurancesTable(carDto.insurances);
-                });
-            }
-        )
-        .catch(function (err) {
-            console.log('Fetch Error :-S', err); // ToDo: make it give a nice error on the page
-        });
+    //            // Examine the text in the response
+    //            response.json().then(function (carDto) {
+    //                //registrationNumberInput.value = carDto.carRegistrationNumber;
+    //                manufacturingYearInput.value = carDto.carManufacturingYear;
+    //                //prepareDriverDropdown(carDto.idDriver, carDto.driverName, carDto.driverEmail);
+    //                createInsurancesTable(carDto.insurances);
+    //            });
+    //        }
+    //    )
+    //    .catch(function (err) {
+    //        console.log('Fetch Error :-S', err); // ToDo: make it give a nice error on the page
+    //    });
 }
 
 /*
  * Sets main option to "driverName"
  * and loads other drivers
  */
-function prepareDriverDropdown(idDriver, driverName, driverEmail) {
+//function prepareDriverDropdown(idDriver, driverName, driverEmail) {
 
-    driverDropdown.length = 0;
+//    driverDropdown.length = 0;
 
-    let defaultOption = document.createElement('option');
-    defaultOption.text = driverName;
-    defaultOption.title = driverName + " " + driverEmail;
-    defaultOption.value = idDriver;
+//    let defaultOption = document.createElement('option');
+//    defaultOption.text = driverName;
+//    defaultOption.title = driverName + " " + driverEmail;
+//    defaultOption.value = idDriver;
 
-    driverDropdown.add(defaultOption);
-    driverDropdown.selectedIndex = 0;
+//    driverDropdown.add(defaultOption);
+//    driverDropdown.selectedIndex = 0;
 
-    fetch('/drivers/getall')
-        .then(
-            function (response) {
-                if (response.status !== 200) {// ToDo: make it give a nice error on the page
-                    console.log('Looks like there was a problem. Status Code: ' +
-                        response.status);
-                    return;
-                }
+//    fetch('/drivers/getall')
+//        .then(
+//            function (response) {
+//                if (response.status !== 200) {// ToDo: make it give a nice error on the page
+//                    console.log('Looks like there was a problem. Status Code: ' +
+//                        response.status);
+//                    return;
+//                }
 
-                // Examine the text in the response
-                response.json().then(function (myJson) {
-                    const data = myJson.data; // get data from the json
+//                // Examine the text in the response
+//                response.json().then(function (myJson) {
+//                    const data = myJson.data; // get data from the json
 
-                    for (let i = 0; i < data.length; i++) {
+//                    for (let i = 0; i < data.length; i++) {
 
-                        if (data[i].id !== idDriver) {
-                            option = document.createElement('option');
-                            option.title = data[i].name + " " + data[i].email;
-                            option.text = data[i].name;
-                            option.value = data[i].id;
-                            driverDropdown.add(option);
-                        }
-                    }
-                });
-            }
-        )
-        .catch(function (err) {
-            console.log('Fetch Error :-S', err); // ToDo: make it give a nice error on the page
-        });
-}
+//                        if (data[i].id !== idDriver) {
+//                            option = document.createElement('option');
+//                            option.title = data[i].name + " " + data[i].email;
+//                            option.text = data[i].name;
+//                            option.value = data[i].id;
+//                            driverDropdown.add(option);
+//                        }
+//                    }
+//                });
+//            }
+//        )
+//        .catch(function (err) {
+//            console.log('Fetch Error :-S', err); // ToDo: make it give a nice error on the page
+//        });
+//}
 
 /*
  * Creates a table of <div> with car.insurance
@@ -102,7 +102,9 @@ function createInsurancesTable(insurances) {
         form.appendChild(divRow);
     }
 
-    form.appendChild(createFormSubmit());
+    
+
+    form.appendChild(createFormSubmitButton());
 }
 
 function createLeftCell(typeOfInsurance, date) {
@@ -167,7 +169,7 @@ function createRightCell(typeOfInsurance, date) {
     return parent;
 }
 
-function createFormSubmit() {
+function createFormSubmitButton() {
     var formSubmitElement = document.createElement("div");
     formSubmitElement.setAttribute("class", "form-group");
 
@@ -175,6 +177,7 @@ function createFormSubmit() {
     inputElement.setAttribute("type", "submit");
     inputElement.setAttribute("value", "Salveaza");
     inputElement.setAttribute("class", "btn btn-primary");
+    inputElement.setAttribute("onClick", "updateCar()");
 
     formSubmitElement.appendChild(inputElement);
     return formSubmitElement;
@@ -206,4 +209,9 @@ function createTable() {
     catch (e) {
         alert(e);
     }
+}
+
+function updateCar() {
+    console.log("udating");
+    document.getElementById("formId").submit();
 }

@@ -1,15 +1,17 @@
-﻿@{
+﻿@model AutoFleet.Dtos.CarDTO
+@{
     ViewData["Title"] = "Edit";
 }
 
 <h4>Masina</h4>
 <hr />
-<form id="formId">
+<form id="formId" asp-action="Edit">
+    <input type="hidden" asp-for="CarId" />
     <div class="row">
         <div class="col-md-5">
             <div class="form-group">
                 <label class="control-label">Numar inmatriculare</label>
-                <input id="registrationNumberInput" class="form-control" />
+                <input asp-for="CarRegistrationNumber" id="registrationNumberInput" name="CarRegistrationNumber" class="form-control" />
                 <span class="text-danger"></span>
             </div>
         </div>
@@ -19,7 +21,7 @@
         <div class="col-md-5">
             <div class="form-group">
                 <label class="control-label">An fabricatie</label>
-                <input id="manufacturingYearInput" class="form-control" />
+                <input asp-for="CarManufacturingYear" id="manufacturingYearInput" class="form-control" />
                 <span class="text-danger"></span>
             </div>
         </div>
@@ -29,9 +31,34 @@
         <div class="col-md-5">
             <div class="form-group">
                 <label class="control-label">Soferul</label>
-                <select id="changeDriverDropdown" class="form-control"></select>
+                <select id="changeDriverDropdown" class="form-control" asp-for="DriverId" asp-items="@(new SelectList(Model.AvailableDrivers,"Id","Text",Model.DriverId))"></select>
             </div>
         </div>
+    </div>
+
+    @foreach (var insurance in Model.Insurances)
+    {
+        <div class="row">
+            <div class="col-md-5 form-group">
+                <label class="control-label">@(insurance.TypeOfInsurance + " a fost realizat(a) la: ")</label>
+                <input asp-for="@insurance.LastRenewal" class="form-control" type="date" />
+            </div>
+
+            <div class="col-md-6 form-group">
+                <label class="control-label">Expira la</label>
+
+                <div class="input-group mb-3">
+                    <input asp-for="@insurance.ExpirationDate" class="form-control" type="date" readonly />
+                    <div class="input-group-append pl-4">
+                        <button class="btn btn-danger" type="button">Sterge</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="form-group">
+        <input type="submit" value="Salveaza" class="btn btn-primary" />
     </div>
 </form>
 
@@ -40,5 +67,4 @@
 </div>
 
 @section Scripts {
-    <script src="~/js/car.js"></script>
 }

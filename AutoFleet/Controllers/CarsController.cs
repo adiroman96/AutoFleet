@@ -62,11 +62,18 @@ namespace AutoFleet.Controllers
             }
 
             var car = await _context.Cars.FindAsync(id);
+            var insurances = _context.Insurances.ToList<Insurance>();
+
             if (car == null)
             {
                 return NotFound();
             }
-            return View(car);
+
+            Driver driver = await GetDriver(car);
+            List<Driver> availableDrivers = _context.Drivers.ToList<Driver>();
+            CarDTO carDTO = CarDTOMapper.CarAndDriverToCarDTO(car, driver, availableDrivers);
+
+            return View(carDTO);
         }
 
         // POST: Cars/Edit/5
@@ -74,8 +81,9 @@ namespace AutoFleet.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,RegistrationNumber,ManufacturingYear")] Car car)
+        public async Task<IActionResult> Edit(int id, [Bind("CarId, CarRegistrationNumber, CarManufacturingYear, Insurances, DriverId, Insurances")] CarDTO carDTO)
         {
+            Car car = CarDTOMapper.CarDtoToCar(carDTO);
             if (id != car.Id)
             {
                 return NotFound();
@@ -85,8 +93,17 @@ namespace AutoFleet.Controllers
             {
                 try
                 {
+                    Driver oldDriver = await _context.Drivers.FirstOrDefaultAsync(d => d.Cars.Contains<Car>(car));
+                    if (!oldDriver.Id.Equals(carDTO.DriverId))
+                    {
+                        oldDriver.Cars.Remove(car);
+                        Driver newDriver = await _context.Drivers.FirstOrDefaultAsync(d => d.Id.Equals(carDTO.DriverId));
+                        newDriver.Cars.Add(car);
+                    }
+
                     _context.Update(car);
                     await _context.SaveChangesAsync();
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -138,28 +155,6 @@ namespace AutoFleet.Controllers
             return _context.Cars.Any(e => e.Id == id);
         }
 
-        #region API Calls
-
-        // GET: Cars/cardto/3
-        [HttpGet]
-        public async Task<IActionResult> CarDTO(int? id)
-        {
-            try
-            {
-                Car car = await GetCar(id);
-                Driver driver = await GetDriver(car); // driver of the car or null
-                CarDTO carDTO = CarDTOMapper.CarAndDriverToCarDTO(car, driver);
-
-                return Json(carDTO);
-
-            } catch (ObjectNotFoundException)
-            {
-                return NotFound();
-            }
-        }
-
-        #endregion
-
 
         public async Task<Car> GetCar(int? id)
         {
@@ -189,13 +184,13 @@ namespace AutoFleet.Controllers
         [HttpGet]
         public async Task<IActionResult> CreateMock()
         {
-            int nr = 30;
+            int nr = 28;
 
             Car car = new Car();
             car.ManufacturingYear = 2019;
-            car.RegistrationNumber = "SB" + nr + "ABC";
+            car.RegistrationNumber = "SB" + nr + "XXX";
 
-            Insurance itp = new Rovinieta
+            Insurance itp = new CASCO
             {
                 LastRenewal = new DateTime(2019, 01, nr),
             };
