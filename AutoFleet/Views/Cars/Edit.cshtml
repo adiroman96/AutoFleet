@@ -39,29 +39,49 @@
     @{int i = 0;
         foreach (var insurance in Model.Insurances)
         {
-        <div class="row">
-            <input type="hidden" asp-for="@insurance.Id" name="@("Insurances[" + i + "].Id")" />
-            <input type="hidden" asp-for="@insurance.TypeOfInsurance" name="@("Insurances[" + i + "].TypeOfInsurance")" />
+            <div class="row">
+                <input type="hidden" asp-for="@insurance.Id" name="@("Insurances[" + i + "].Id")" />
+                <input type="hidden" asp-for="@insurance.TypeOfInsurance" name="@("Insurances[" + i + "].TypeOfInsurance")" />
 
-            <div class="col-md-5 form-group">
-                <label class="control-label">@(insurance.TypeOfInsurance + " a fost realizat(a) la: ")</label>
-                <input asp-for="@insurance.LastRenewal" class="form-control" type="date" name="@("Insurances[" + i + "].LastRenewal")" />
-            </div>
+                <div class="col-md-5 form-group">
+                    <label class="control-label">@(insurance.TypeOfInsurance + " a fost realizat(a) la: ")</label>
+                    <input asp-for="@insurance.LastRenewal" class="form-control" type="date" name="@("Insurances[" + i + "].LastRenewal")" />
+                </div>
 
-            <div class="col-md-6 form-group">
-                <label class="control-label">Expira la</label>
+                <div class="col-md-6 form-group">
+                    <label class="control-label">Expira la</label>
 
-                <div class="input-group mb-3">
-                    <input asp-for="@insurance.ExpirationDate" class="form-control" type="date" readonly />
-                    <div class="input-group-append pl-4">
-                        <button class="btn btn-danger" type="button">Sterge</button>
+                    <div class="input-group mb-3">
+                        <input asp-for="@insurance.ExpirationDate" class="form-control" type="date" readonly />
+                        <div class="input-group-append pl-4">
+                            <button class="btn btn-danger" type="button">Sterge</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-                i++;
+            i++;
+        }
+        <hr />
+        <div class="row pb-3">
+            <div class="col-md-5">
+                <label class="control-label">Adauga: </label>
 
-            } }
+                <select id="TypeOfNewInsurance" class="form-control" name="@("Insurances[" + i + "].TypeOfInsurance")">
+                    <option value=""></option>
+                    <option value="Rovinieta">Rovinieta</option>
+                    <option value="ITP">ITP</option>
+                    <option value="CASCO">CASCO</option>
+                    <option value="Rca">Rca</option>
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <label class="control-label">Creat la data de: </label>
+                <input class="form-control" type="date" name="@("Insurances[" + i + "].LastRenewal")" />
+            </div>
+        </div>
+        <hr />
+    }
 
     <div class="form-group">
         <input type="submit" value="Salveaza" class="btn btn-primary" />

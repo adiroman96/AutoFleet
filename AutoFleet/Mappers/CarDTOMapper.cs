@@ -61,7 +61,9 @@ namespace AutoFleet.Mappers
 
             foreach (var insurance in dto.Insurances)
             {
-                car.Insurances.Add(createInsuranceInstance(insurance));
+                Insurance newInsurance = createInsuranceInstance(insurance);
+                if (newInsurance != null)
+                    car.Insurances.Add(createInsuranceInstance(insurance));
             }
 
             return car;
@@ -75,6 +77,8 @@ namespace AutoFleet.Mappers
         /*
          * recieves an insurance
          * and based on typeOfInsurance creates an instance of that type (RCA, ITP...) with given data
+         * 
+         * return null when typeOfInsurance is not a Child of Insurance
          */
         private static Insurance createInsuranceInstance(Insurance insurance)
         {
@@ -94,8 +98,7 @@ namespace AutoFleet.Mappers
                     newInsurance = new Rca();
                     break;
                 default:
-                    newInsurance = new Insurance();
-                    break;
+                    return null;                  
             }
             newInsurance.Id = insurance.Id;
             newInsurance.LastRenewal = insurance.LastRenewal;

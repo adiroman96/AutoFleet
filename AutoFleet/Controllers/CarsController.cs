@@ -29,7 +29,7 @@ namespace AutoFleet.Controllers
         public async Task<IActionResult> Index()
         {
             return View(await _context.Cars.ToListAsync());
-        }        
+        }
 
         // GET: Cars/Create
         public IActionResult Create()
@@ -83,7 +83,8 @@ namespace AutoFleet.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("CarId, CarRegistrationNumber, CarManufacturingYear, DriverId, Insurances")] CarDTO carDTO)
         {
-           
+            carDTO.Insurances.Remove(carDTO.Insurances.FindLast(i => i.TypeOfInsurance == null));
+
             if (id != carDTO.CarId)
             {
                 return NotFound();
@@ -91,31 +92,23 @@ namespace AutoFleet.Controllers
 
             Car car = CarDTOMapper.CarDtoToCar(carDTO);
 
-            if (ModelState.IsValid)
+            try
             {
-                try
-                {           
-                    //Car carToUpdate = _context.Cars.Find(car.Id);
-                    //carToUpdate.DriverId = car.DriverId
-
-                    _context.Update(car);
-                    await _context.SaveChangesAsync();
-
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CarExists(car.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                _context.Update(car);
+                await _context.SaveChangesAsync();
             }
-            return View(car);
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!CarExists(car.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Cars/Delete/5
