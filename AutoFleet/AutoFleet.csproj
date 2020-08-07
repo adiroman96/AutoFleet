@@ -21,6 +21,10 @@
     <Compile Remove="Migrations\20200729210946_CascoAvailabilityRequired.Designer.cs" />
     <Compile Remove="Migrations\20200729211103_CascoAvailability.cs" />
     <Compile Remove="Migrations\20200729211103_CascoAvailability.Designer.cs" />
+    <Compile Remove="Migrations\20200807162345_DriverId.cs" />
+    <Compile Remove="Migrations\20200807162345_DriverId.Designer.cs" />
+    <Compile Remove="Migrations\20200807162439_DriverId.cs" />
+    <Compile Remove="Migrations\20200807162439_DriverId.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -31,17 +31,21 @@
         <div class="col-md-5">
             <div class="form-group">
                 <label class="control-label">Soferul</label>
-                <select id="changeDriverDropdown" class="form-control" asp-for="DriverId" asp-items="@(new SelectList(Model.AvailableDrivers,"Id","Text",Model.DriverId))"></select>
+                <select id="changeDriverDropdown" class="form-control" asp-for="DriverId" asp-items="@(new SelectList(Model.AvailableDrivers, "Id", "Text", Model.DriverId))"></select>
             </div>
         </div>
     </div>
 
-    @foreach (var insurance in Model.Insurances)
-    {
+    @{int i = 0;
+        foreach (var insurance in Model.Insurances)
+        {
         <div class="row">
+            <input type="hidden" asp-for="@insurance.Id" name="@("Insurances[" + i + "].Id")" />
+            <input type="hidden" asp-for="@insurance.TypeOfInsurance" name="@("Insurances[" + i + "].TypeOfInsurance")" />
+
             <div class="col-md-5 form-group">
                 <label class="control-label">@(insurance.TypeOfInsurance + " a fost realizat(a) la: ")</label>
-                <input asp-for="@insurance.LastRenewal" class="form-control" type="date" />
+                <input asp-for="@insurance.LastRenewal" class="form-control" type="date" name="@("Insurances[" + i + "].LastRenewal")" />
             </div>
 
             <div class="col-md-6 form-group">
@@ -55,7 +59,9 @@
                 </div>
             </div>
         </div>
-    }
+                i++;
+
+            } }
 
     <div class="form-group">
         <input type="submit" value="Salveaza" class="btn btn-primary" />

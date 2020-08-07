@@ -10,14 +10,26 @@ namespace AutoFleet.Models
     {
         private DateTime lastRenewal;
         private string typeOfInsurance;
-        
+
+        public Insurance()
+        {
+            ExpirationDate = LastRenewal.AddYears(Availability);
+        }
+
+        public Insurance(int Id, DateTime LastRenewal)
+        {
+            this.Id = Id; 
+            this.LastRenewal = LastRenewal;
+            this.ExpirationDate = LastRenewal.AddYears(Availability);
+        }
+
         [Key]
         public int Id { get; set; }
 
         [Display(Name = "Tip")]
         public string TypeOfInsurance {
             get => typeOfInsurance;
-            protected set => typeOfInsurance = value;
+            set => typeOfInsurance = value;
         }
 
         [Display(Name = "Ultima reinnoire")]

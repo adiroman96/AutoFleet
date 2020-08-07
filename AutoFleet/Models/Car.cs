@@ -22,5 +22,9 @@ namespace AutoFleet.Models
         }
 
         public List<Insurance> Insurances { get; set; } = new List<Insurance>();
+
+        public int? DriverId { get; set; }
+
+        public Driver Driver { get; set; }
     }
 }

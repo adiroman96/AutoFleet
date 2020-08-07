@@ -81,25 +81,22 @@ namespace AutoFleet.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CarId, CarRegistrationNumber, CarManufacturingYear, Insurances, DriverId, Insurances")] CarDTO carDTO)
+        public async Task<IActionResult> Edit(int id, [Bind("CarId, CarRegistrationNumber, CarManufacturingYear, DriverId, Insurances")] CarDTO carDTO)
         {
-            Car car = CarDTOMapper.CarDtoToCar(carDTO);
-            if (id != car.Id)
+           
+            if (id != carDTO.CarId)
             {
                 return NotFound();
             }
 
+            Car car = CarDTOMapper.CarDtoToCar(carDTO);
+
             if (ModelState.IsValid)
             {
                 try
-                {
-                    Driver oldDriver = await _context.Drivers.FirstOrDefaultAsync(d => d.Cars.Contains<Car>(car));
-                    if (!oldDriver.Id.Equals(carDTO.DriverId))
-                    {
-                        oldDriver.Cars.Remove(car);
-                        Driver newDriver = await _context.Drivers.FirstOrDefaultAsync(d => d.Id.Equals(carDTO.DriverId));
-                        newDriver.Cars.Add(car);
-                    }
+                {           
+                    //Car carToUpdate = _context.Cars.Find(car.Id);
+                    //carToUpdate.DriverId = car.DriverId
 
                     _context.Update(car);
                     await _context.SaveChangesAsync();

@@ -55,18 +55,58 @@ namespace AutoFleet.Mappers
             {
                 Id = dto.CarId,
                 ManufacturingYear = dto.CarManufacturingYear,
-                RegistrationNumber = dto.CarRegistrationNumber,                
-                Insurances = dto.Insurances
+                RegistrationNumber = dto.CarRegistrationNumber,
+                DriverId = dto.DriverId
             };
+
+            foreach (var insurance in dto.Insurances)
+            {
+                car.Insurances.Add(createInsuranceInstance(insurance));
+            }
+
             return car;
         }
+
         private static string getDriverTextFromDriver(Driver driver)
         {
             return driver.Name + " (" + driver.Email + ")";
         }
 
+        /*
+         * recieves an insurance
+         * and based on typeOfInsurance creates an instance of that type (RCA, ITP...) with given data
+         */
+        private static Insurance createInsuranceInstance(Insurance insurance)
+        {
+            Insurance newInsurance;
+            switch (insurance.TypeOfInsurance)
+            {
+                case "Rovinieta":
+                    newInsurance = new Rovinieta();
+                    break;
+                case "ITP":
+                    newInsurance = new ITP();
+                    break;
+                case "CASCO":
+                    newInsurance = new CASCO();
+                    break;
+                case "Rca":
+                    newInsurance = new Rca();
+                    break;
+                default:
+                    newInsurance = new Insurance();
+                    break;
+            }
+            newInsurance.Id = insurance.Id;
+            newInsurance.LastRenewal = insurance.LastRenewal;
+
+            return newInsurance;
+        }
+
     }
 
-    
+
+
+
 
 }
