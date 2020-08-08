@@ -8,17 +8,18 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoFleet.Models;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AutoFleet
 {
     public class MailService : IHostedService
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IServiceScopeFactory scopeFactory;
         private readonly int INTERVAL = 2; //the time interval at which messages are sent
 
-        public MailService(ApplicationDbContext context)
+        public MailService(IServiceScopeFactory scopeFactory)
         {
-            _context = context;
+            this.scopeFactory = scopeFactory;
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
@@ -53,12 +54,20 @@ namespace AutoFleet
         {
             DateTime now = DateTime.Now.Date;
             DateTime correctDate = DateTime.Now.Date;
-            if (now.CompareTo(correctDate) == 0)
-            {
-                List<Driver> drivers =  _context.Drivers.ToList<Driver>();
 
-                EmailHelper.SendMail(drivers[0].Name, "as24ady@gmail.com", "RCA", "01/01/2021", "SB01AAA");
+            using (var scope = scopeFactory.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+                if (now.CompareTo(correctDate) == 0)
+                {
+                    List<Driver> drivers = dbContext.Drivers.ToList<Driver>();
+
+                    EmailHelper.SendMail(drivers[0].Name, "as24ady@gmail.com", "RCA", "01/01/2021", "SB01AAA");
+                }
             }
+
+           
         }
     }
 }
