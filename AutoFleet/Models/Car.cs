@@ -12,10 +12,12 @@ namespace AutoFleet.Models
         public int Id { get; set; }
 
         [Required]
+        [Display(Name = "Nr. inmatriculare")]
         public string RegistrationNumber { get; set; }
 
         [Required]
         [Range(1980, 9999)]
+        [Display(Name = "An fabricatie")]
         public int ManufacturingYear
         {
             get; set;

@@ -1,12 +1,10 @@
 ﻿@model AutoFleet.Models.Car
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Adauga o masina";
 }
 
-<h1>Create</h1>
-
-<h4>Car</h4>
+<h4>Adauga o masina</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -23,14 +21,14 @@
                 <span asp-validation-for="ManufacturingYear" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Adauga" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Inapoi la lista</a>
 </div>
 
 @section Scripts {
