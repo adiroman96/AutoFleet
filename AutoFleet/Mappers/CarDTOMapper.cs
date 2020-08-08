@@ -63,10 +63,30 @@ namespace AutoFleet.Mappers
             {
                 Insurance newInsurance = createInsuranceInstance(insurance);
                 if (newInsurance != null)
-                    car.Insurances.Add(newInsurance);
+                {
+                    if (!existsAnInsuranceWithType(newInsurance.TypeOfInsurance, car.Insurances))
+                    {
+                        car.Insurances.Add(newInsurance);
+                    }
+                    else
+                    {
+                        throw new Exception("Nu pot exista doua asigurari de acelasi tip pentru aceasi amasina");
+                    }
+                }
             }
 
             return car;
+        }
+
+        private static bool existsAnInsuranceWithType(string typeOfInsurance, List<Insurance> insurances)
+        {
+            foreach (var insurance in insurances)
+            {
+                if (insurance.TypeOfInsurance.CompareTo(typeOfInsurance).Equals(0))
+                    return true;
+            };
+            return false;
+
         }
 
         private static string getDriverTextFromDriver(Driver driver)
@@ -98,7 +118,7 @@ namespace AutoFleet.Mappers
                     newInsurance = new Rca();
                     break;
                 default:
-                    return null;                  
+                    return null;
             }
             newInsurance.Id = insurance.Id;
             newInsurance.LastRenewal = insurance.LastRenewal;

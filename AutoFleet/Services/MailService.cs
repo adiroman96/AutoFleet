@@ -40,7 +40,7 @@ namespace AutoFleet
             while (true)
             {
                 //Check if there are any emails to send and send them
-                //sendEmailsIfNeeded();
+                sendEmailsIfNeeded();
 
                 //Wait X hours till next execution, where X is the
                 DateTime nextStop = DateTime.Now.AddHours(INTERVAL);
