@@ -9,8 +9,8 @@ namespace AutoFleet.Utils
 {
     public class EmailHelper
     {
-        const string mail = "to replace with sender eemail";
-        const string password = "to replace with sender password";
+        const string mail = "ubb.cercc@gmail.com";
+        const string password = "macppnet";
 
         public static void SendMail(string nameOfRecipient, string emailOfRecipient, string expiringObject, string finalDate, string registrationNumber)
         {

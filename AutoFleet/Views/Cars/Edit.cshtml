@@ -38,10 +38,10 @@
 
     @{int i = 0;
         foreach (var insurance in Model.Insurances)
-        {
-            <div class="row">
+        { 
+            <div class="row" id="@("insuranceRow" + i )">
                 <input type="hidden" asp-for="@insurance.Id" name="@("Insurances[" + i + "].Id")" />
-                <input type="hidden" asp-for="@insurance.TypeOfInsurance" name="@("Insurances[" + i + "].TypeOfInsurance")" />
+                <input type="hidden" asp-for="@insurance.TypeOfInsurance" id="@("Insurances[" + i + "].TypeOfInsurance")" name="@("Insurances[" + i + "].TypeOfInsurance")" />
 
                 <div class="col-md-5 form-group">
                     <label class="control-label">@(insurance.TypeOfInsurance + " a fost realizat(a) la: ")</label>
@@ -54,7 +54,7 @@
                     <div class="input-group mb-3">
                         <input asp-for="@insurance.ExpirationDate" class="form-control" type="date" readonly />
                         <div class="input-group-append pl-4">
-                            <button class="btn btn-danger" type="button">Sterge</button>
+                            <button class="btn btn-danger" type="button" onclick="@("DeleteRow(" + i + ")")">Sterge</button>
                         </div>
                     </div>
                 </div>
@@ -93,4 +93,10 @@
 </div>
 
 @section Scripts {
+    <script type="text/javascript">
+    function DeleteRow(row)
+    {
+        alert("Nice try! Not implemented yet.");
+    }
+    </script>
 }
