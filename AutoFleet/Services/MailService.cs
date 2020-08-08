@@ -15,7 +15,7 @@ namespace AutoFleet
     public class MailService : IHostedService
     {
         private readonly IServiceScopeFactory scopeFactory;
-        private readonly int INTERVAL = 2; //the time interval at which messages are sent (hours)
+        private readonly int INTERVAL = 24; //the time interval at which messages are sent (hours)
 
         public MailService(IServiceScopeFactory scopeFactory)
         {
@@ -40,10 +40,10 @@ namespace AutoFleet
             while (true)
             {
                 //Check if there are any emails to send and send them
-                sendEmailsIfNeeded();
+                //sendEmailsIfNeeded();
 
                 //Wait X hours till next execution, where X is the
-                DateTime nextStop = DateTime.Now.AddMinutes(INTERVAL); // ToDo: change in hours
+                DateTime nextStop = DateTime.Now.AddHours(INTERVAL);
                 var timeToWait = nextStop - DateTime.Now;
                 var millisToWait = timeToWait.TotalMilliseconds;
                 Thread.Sleep((int)millisToWait);

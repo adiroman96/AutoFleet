@@ -78,7 +78,7 @@
             <div class="col-md-4">
                 <label class="control-label">Adauga: </label>
 
-                <select id="TypeOfNewInsurance" class="form-control" name="@("Insurances[" + i + "].TypeOfInsurance")">
+                <select id="TypeOfNewInsurance" class="form-control" name="@("Insurances[" + i + "].TypeOfInsurance")" onchange="@("checkTypeOfNewInsurance(" + i + ")")">
                     <option value=""></option>
                     <option value="Rovinieta">Rovinieta</option>
                     <option value="ITP">ITP</option>
@@ -126,4 +126,20 @@
 </div>
 
 @section Scripts {
+    <script type="text/javascript">
+        function checkTypeOfNewInsurance(row) {
+            let newInsurance = document.getElementById("TypeOfNewInsurance");
+            let typeOfNewInsurance =  newInsurance.value;
+
+            for (var i = 0; i < row; i++) {
+                let element = document.getElementById("Insurances[" + i + "].TypeOfInsurance");
+                let typeOfInsurance = element.value;
+
+                if (typeOfNewInsurance === typeOfInsurance) {
+                    alert("Exista deja o asigurare de tipul " + typeOfNewInsurance + ".\nVa rugam actualizati data realizarii.");
+                    newInsurance.value = "";
+                }
+            }
+        }
+    </script>
 }
