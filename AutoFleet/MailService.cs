@@ -15,7 +15,7 @@ namespace AutoFleet
     public class MailService : IHostedService
     {
         private readonly IServiceScopeFactory scopeFactory;
-        private readonly int INTERVAL = 2; //the time interval at which messages are sent
+        private readonly int INTERVAL = 2; //the time interval at which messages are sent (hours)
 
         public MailService(IServiceScopeFactory scopeFactory)
         {
@@ -53,21 +53,21 @@ namespace AutoFleet
         private void sendEmailsIfNeeded()
         {
             DateTime now = DateTime.Now.Date;
-            DateTime correctDate = DateTime.Now.Date;
 
             using (var scope = scopeFactory.CreateScope())
             {
                 var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
-                if (now.CompareTo(correctDate) == 0)
+                List<Insurance> insurances = dbContext.Insurances.AsQueryable<Insurance>().Where(x => x.ReminderDate.CompareTo(now) <= 0).ToList<Insurance>();
+
+                insurances.ForEach(insurance =>
                 {
-                    List<Driver> drivers = dbContext.Drivers.ToList<Driver>();
+                    Car car = dbContext.Cars.Find(insurance.CarId);
+                    Driver driver = dbContext.Drivers.Find(car.DriverId);
 
-                    EmailHelper.SendMail(drivers[0].Name, "as24ady@gmail.com", "RCA", "01/01/2021", "SB01AAA");
-                }
-            }
-
-           
+                    EmailHelper.SendMail(driver.Name, driver.Email, insurance.TypeOfInsurance, insurance.ExpirationDate.Date.ToString("dd/MM/yyyy"), car.RegistrationNumber);
+                });
+            }           
         }
     }
 }

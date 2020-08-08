@@ -8,7 +8,7 @@
 <form id="formId" asp-action="Edit">
     <input type="hidden" asp-for="CarId" />
     <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-4">
             <div class="form-group">
                 <label class="control-label">Numar inmatriculare</label>
                 <input asp-for="CarRegistrationNumber" id="registrationNumberInput" name="CarRegistrationNumber" class="form-control" />
@@ -18,7 +18,7 @@
     </div>
 
     <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-4">
             <div class="form-group">
                 <label class="control-label">An fabricatie</label>
                 <input asp-for="CarManufacturingYear" id="manufacturingYearInput" class="form-control" />
@@ -28,7 +28,7 @@
     </div>
 
     <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-4">
             <div class="form-group">
                 <label class="control-label">Soferul</label>
                 <select id="changeDriverDropdown" class="form-control" asp-for="DriverId" asp-items="@(new SelectList(Model.AvailableDrivers, "Id", "Text", Model.DriverId))"></select>
@@ -43,19 +43,31 @@
                 <input type="hidden" asp-for="@insurance.Id" name="@("Insurances[" + i + "].Id")" />
                 <input type="hidden" asp-for="@insurance.TypeOfInsurance" id="@("Insurances[" + i + "].TypeOfInsurance")" name="@("Insurances[" + i + "].TypeOfInsurance")" />
 
-                <div class="col-md-5 form-group">
+                <div class="col-md-4 form-group">
                     <label class="control-label">@(insurance.TypeOfInsurance + " a fost realizat(a) la: ")</label>
                     <input asp-for="@insurance.LastRenewal" class="form-control" type="date" name="@("Insurances[" + i + "].LastRenewal")" />
                 </div>
 
-                <div class="col-md-6 form-group">
+                <div class="col-md-4 form-group">
                     <label class="control-label">Expira la</label>
+                    <input asp-for="@insurance.ExpirationDate" class="form-control" type="date" readonly />
+                </div>
 
-                    <div class="input-group mb-3">
-                        <input asp-for="@insurance.ExpirationDate" class="form-control" type="date" readonly />
-                        <div class="input-group-append pl-4">
-                            <button class="btn btn-danger" type="button" onclick="@("DeleteRow(" + i + ")")">Sterge</button>
-                        </div>
+                <div class="col-md-4 form-group">
+                    <label class="control-label">Notificare cu X zile inainte</label>
+
+                    <div class="input-groupmb-3">
+                        <select asp-for="@insurance.ReminderInterval" class="form-control" name="@("Insurances[" + i + "].ReminderInterval")">
+                            <option value="1">1 zi</option>
+                            <option value="2">2 zile</option>
+                            <option value="5">5 zile</option>
+                            <option value="10" selected>10 zile</option>
+                            <option value="15">15 zile</option>
+                            <option value="20">20 zile</option>
+                            <option value="30">30 zile</option>
+                            <option value="45">45 zile</option>
+                            <option value="60">60 zile</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -63,7 +75,7 @@
         }
         <hr />
         <div class="row pb-3">
-            <div class="col-md-5">
+            <div class="col-md-4">
                 <label class="control-label">Adauga: </label>
 
                 <select id="TypeOfNewInsurance" class="form-control" name="@("Insurances[" + i + "].TypeOfInsurance")">
@@ -75,28 +87,43 @@
                 </select>
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <label class="control-label">Creat la data de: </label>
                 <input class="form-control" type="date" name="@("Insurances[" + i + "].LastRenewal")" />
             </div>
+
+            <div class="col-md-4 form-group">
+                <label class="control-label">Notificare cu X zile inainte</label>
+
+                <div class="input-groupmb-3">
+                    <select class="form-control" name="@("Insurances[" + i + "].ReminderInterval")">
+                        <option value="1">1 zi</option>
+                        <option value="2">2 zile</option>
+                        <option value="5">5 zile</option>
+                        <option value="10" selected>10 zile</option>
+                        <option value="15">15 zile</option>
+                        <option value="20">20 zile</option>
+                        <option value="30">30 zile</option>
+                        <option value="45">45 zile</option>
+                        <option value="60">60 zile</option>
+                    </select>
+                </div>
+            </div>
+
         </div>
         <hr />
     }
 
-    <div class="form-group">
-        <input type="submit" value="Salveaza" class="btn btn-primary" />
-    </div>
+    <div class="row">
+        <div class="col-md-4 form-group">
+            <input type="submit" value="Salveaza" class="btn btn-primary" />
+        </div>
+    </div>    
 </form>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Inapoi la lista de masini</a>
 </div>
 
 @section Scripts {
-    <script type="text/javascript">
-    function DeleteRow(row)
-    {
-        alert("Nice try! Not implemented yet.");
-    }
-    </script>
 }

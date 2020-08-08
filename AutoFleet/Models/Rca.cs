@@ -10,7 +10,7 @@ namespace AutoFleet.Models
     {
         public Rca()
         {
-            this.TypeOfInsurance = "RCA";
+            this.TypeOfInsurance = "Rca";
             this.Availability = 1;
         }
     }

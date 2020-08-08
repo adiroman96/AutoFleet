@@ -10,6 +10,7 @@ namespace AutoFleet.Models
     {
         private DateTime lastRenewal;
         private string typeOfInsurance;
+        private int reminderInterval = 10; // number of days
 
         public Insurance()
         {
@@ -47,9 +48,23 @@ namespace AutoFleet.Models
         // ExpirationDate is readonly as is calculated using the availability
         [Display(Name = "Data expirare")]
         public DateTime ExpirationDate { get; private set; }
+      
+        public DateTime ReminderDate { get; private set; }
 
         // public+recorded for each insurance because the availability can change in time as a scpecific car gets older
         [Display(Name = "Valabilitate")]
         public int Availability { get; set; }
+
+        public int ReminderInterval 
+        {
+            get => reminderInterval;
+            set
+            {
+                reminderInterval = value;
+                ReminderDate = ExpirationDate.AddDays(-reminderInterval);
+            }
+        }
+
+        public int? CarId { get; set; }
     }
 }

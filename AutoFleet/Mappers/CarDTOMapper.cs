@@ -63,7 +63,7 @@ namespace AutoFleet.Mappers
             {
                 Insurance newInsurance = createInsuranceInstance(insurance);
                 if (newInsurance != null)
-                    car.Insurances.Add(createInsuranceInstance(insurance));
+                    car.Insurances.Add(newInsurance);
             }
 
             return car;
@@ -102,6 +102,7 @@ namespace AutoFleet.Mappers
             }
             newInsurance.Id = insurance.Id;
             newInsurance.LastRenewal = insurance.LastRenewal;
+            newInsurance.ReminderInterval = insurance.ReminderInterval;
 
             return newInsurance;
         }
