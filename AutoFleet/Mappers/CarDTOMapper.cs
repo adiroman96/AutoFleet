@@ -59,14 +59,14 @@ namespace AutoFleet.Mappers
                 DriverId = dto.DriverId
             };
 
-            foreach (var insurance in dto.Insurances)
+            foreach (var insuranceDto in dto.Insurances)
             {
-                Insurance newInsurance = createInsuranceInstance(InsuranceDTOMapper.InsuranceDTOToInsurance(insurance));
-                if (newInsurance != null)
+                Insurance insurance = createInsuranceInstance(insuranceDto);
+                if (insurance != null)
                 {
-                    if (!existsAnInsuranceWithType(newInsurance.TypeOfInsurance, car.Insurances))
+                    if (!existsAnInsuranceWithType(insurance.TypeOfInsurance, car.Insurances))
                     {
-                        car.Insurances.Add(newInsurance);
+                        car.Insurances.Add(insurance);
                     }
                     else
                     {
@@ -74,7 +74,6 @@ namespace AutoFleet.Mappers
                     }
                 }
             }
-
             return car;
         }
 
@@ -100,7 +99,7 @@ namespace AutoFleet.Mappers
          * 
          * return null when typeOfInsurance is not a Child of Insurance
          */
-        private static Insurance createInsuranceInstance(Insurance insurance)
+        private static Insurance createInsuranceInstance(InsuranceDTO insurance)
         {
             Insurance newInsurance;
             switch (insurance.TypeOfInsurance)

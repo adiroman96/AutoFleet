@@ -83,8 +83,6 @@ namespace AutoFleet.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("CarId, CarRegistrationNumber, CarManufacturingYear, DriverId, Insurances")] CarDTO carDTO)
         {
-            carDTO.Insurances.Remove(carDTO.Insurances.FindLast(i => i.TypeOfInsurance == null));
-
             if (id != carDTO.CarId)
             {
                 return NotFound();

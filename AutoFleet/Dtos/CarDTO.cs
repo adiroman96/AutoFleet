@@ -21,5 +21,6 @@ namespace AutoFleet.Dtos
         public List<InsuranceDTO> Insurances { get; set; } = new List<InsuranceDTO>();
 
         public List<DriverDto> AvailableDrivers { get; set; } = new List<DriverDto>();
+
     }
 }
