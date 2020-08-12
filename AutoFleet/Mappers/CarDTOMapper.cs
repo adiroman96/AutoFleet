@@ -18,8 +18,8 @@ namespace AutoFleet.Mappers
             carDTO.CarManufacturingYear = car.ManufacturingYear;
             carDTO.CarRegistrationNumber = car.RegistrationNumber;
 
-            // setting Insurances
-            carDTO.Insurances = car.Insurances;
+            // transforming Insurances in InsuranceDTO and adding them to the CarDTO
+            car.Insurances.ForEach(x => carDTO.Insurances.Add(InsuranceDTOMapper.InsuranceToInsuranceDTO(x)));
 
             // setting Driver data
             if (driver != null)
@@ -61,7 +61,7 @@ namespace AutoFleet.Mappers
 
             foreach (var insurance in dto.Insurances)
             {
-                Insurance newInsurance = createInsuranceInstance(insurance);
+                Insurance newInsurance = createInsuranceInstance(InsuranceDTOMapper.InsuranceDTOToInsurance(insurance));
                 if (newInsurance != null)
                 {
                     if (!existsAnInsuranceWithType(newInsurance.TypeOfInsurance, car.Insurances))

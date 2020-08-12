@@ -12,7 +12,7 @@
             <div class="form-group">
                 <label class="control-label">Numar inmatriculare</label>
                 <input asp-for="CarRegistrationNumber" id="registrationNumberInput" name="CarRegistrationNumber" class="form-control" />
-                <span class="text-danger"></span>
+                <span asp-validation-for="CarRegistrationNumber" class="text-danger"></span>
             </div>
         </div>
     </div>
@@ -22,7 +22,7 @@
             <div class="form-group">
                 <label class="control-label">An fabricatie</label>
                 <input asp-for="CarManufacturingYear" id="manufacturingYearInput" class="form-control" />
-                <span class="text-danger"></span>
+                <span asp-validation-for="CarManufacturingYear" class="text-danger"></span>
             </div>
         </div>
     </div>
@@ -32,45 +32,47 @@
             <div class="form-group">
                 <label class="control-label">Soferul</label>
                 <select id="changeDriverDropdown" class="form-control" asp-for="DriverId" asp-items="@(new SelectList(Model.AvailableDrivers, "Id", "Text", Model.DriverId))"></select>
+                <span asp-validation-for="DriverId" class="text-danger"></span>
             </div>
         </div>
     </div>
 
     @{int i = 0;
         foreach (var insurance in Model.Insurances)
-        { 
-            <div class="row" id="@("insuranceRow" + i )">
-                <input type="hidden" asp-for="@insurance.Id" name="@("Insurances[" + i + "].Id")" />
-                <input type="hidden" asp-for="@insurance.TypeOfInsurance" id="@("Insurances[" + i + "].TypeOfInsurance")" name="@("Insurances[" + i + "].TypeOfInsurance")" />
+        {
+        <div class="row" id="@("insuranceRow" + i )">
+            <input type="hidden" asp-for="@insurance.Id" name="@("Insurances[" + i + "].Id")" />
+            <input type="hidden" asp-for="@insurance.TypeOfInsurance" id="@("Insurances[" + i + "].TypeOfInsurance")" name="@("Insurances[" + i + "].TypeOfInsurance")" />
 
-                <div class="col-md-4 form-group">
-                    <label class="control-label">@(insurance.TypeOfInsurance + " a fost realizat(a) la: ")</label>
-                    <input asp-for="@insurance.LastRenewal" class="form-control" type="date" name="@("Insurances[" + i + "].LastRenewal")" />
-                </div>
+            <div class="col-md-4 form-group">
+                <label class="control-label">@(insurance.TypeOfInsurance + " a fost realizat(a) la: ")</label>
+                <input asp-for="@insurance.LastRenewal" class="form-control" type="date" name="@("Insurances[" + i + "].LastRenewal")" />
+                <span asp-validation-for="@insurance.LastRenewal" class="text-danger"></span>
+            </div>
 
-                <div class="col-md-4 form-group">
-                    <label class="control-label">Expira la</label>
-                    <input asp-for="@insurance.ExpirationDate" class="form-control" type="date" readonly />
-                </div>
+            <div class="col-md-4 form-group">
+                <label class="control-label">Expira la</label>
+                <input asp-for="@insurance.ExpirationDate" class="form-control" type="date" readonly />
+            </div>
 
-                <div class="col-md-4 form-group">
-                    <label class="control-label">Notificare cu X zile inainte</label>
+            <div class="col-md-4 form-group">
+                <label class="control-label">Notificare cu X zile inainte</label>
 
-                    <div class="input-groupmb-3">
-                        <select asp-for="@insurance.ReminderInterval" class="form-control" name="@("Insurances[" + i + "].ReminderInterval")">
-                            <option value="1">1 zi</option>
-                            <option value="2">2 zile</option>
-                            <option value="5">5 zile</option>
-                            <option value="10" selected>10 zile</option>
-                            <option value="15">15 zile</option>
-                            <option value="20">20 zile</option>
-                            <option value="30">30 zile</option>
-                            <option value="45">45 zile</option>
-                            <option value="60">60 zile</option>
-                        </select>
-                    </div>
+                <div class="input-groupmb-3">
+                    <select asp-for="@insurance.ReminderInterval" class="form-control" name="@("Insurances[" + i + "].ReminderInterval")">
+                        <option value="1">1 zi</option>
+                        <option value="2">2 zile</option>
+                        <option value="5">5 zile</option>
+                        <option value="10" selected>10 zile</option>
+                        <option value="15">15 zile</option>
+                        <option value="20">20 zile</option>
+                        <option value="30">30 zile</option>
+                        <option value="45">45 zile</option>
+                        <option value="60">60 zile</option>
+                    </select>
                 </div>
             </div>
+        </div>
             i++;
         }
         <hr />
@@ -118,7 +120,7 @@
         <div class="col-md-4 form-group">
             <input type="submit" value="Salveaza" class="btn btn-primary" />
         </div>
-    </div>    
+    </div>
 </form>
 
 <div>
@@ -126,10 +128,11 @@
 </div>
 
 @section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script type="text/javascript">
         function checkTypeOfNewInsurance(row) {
             let newInsurance = document.getElementById("TypeOfNewInsurance");
-            let typeOfNewInsurance =  newInsurance.value;
+            let typeOfNewInsurance = newInsurance.value;
 
             for (var i = 0; i < row; i++) {
                 let element = document.getElementById("Insurances[" + i + "].TypeOfInsurance");
