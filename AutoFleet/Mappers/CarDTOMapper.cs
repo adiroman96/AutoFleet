@@ -49,8 +49,16 @@ namespace AutoFleet.Mappers
             return carDTO;
         }
 
+        /*
+         * in: carDto : CarDTO
+         * returns a car with carDto values
+         * 
+         * throws Exception if in the carDto list of insurances there are at least two insurances with the same type or any of the items of insurances list has a null as value for TypeOfInsurance
+         * 
+         */
         public static Car CarDtoToCar(CarDTO dto)
         {
+            // mapping car specific information
             Car car = new Car()
             {
                 Id = dto.CarId,
@@ -59,45 +67,62 @@ namespace AutoFleet.Mappers
                 DriverId = dto.DriverId
             };
 
+            // mapping insurances
             foreach (var insuranceDto in dto.Insurances)
             {
-                Insurance insurance = createInsuranceInstance(insuranceDto);
-                if (insurance != null)
-                {
-                    if (!existsAnInsuranceWithType(insurance.TypeOfInsurance, car.Insurances))
-                    {
-                        car.Insurances.Add(insurance);
-                    }
-                    else
-                    {
-                        throw new Exception("Nu pot exista doua asigurari de acelasi tip pentru aceasi amasina");
-                    }
-                }
+                addInsuranceToCar(car, insuranceDto);                
             }
+
+            // adding a new insurance if that is the case
+            if(dto.NewInsurance.TypeOfInsurance != null)
+            {
+                addInsuranceToCar(car, dto.NewInsurance);
+            }
+
             return car;
         }
 
-        private static bool existsAnInsuranceWithType(string typeOfInsurance, List<Insurance> insurances)
+        private static void addInsuranceToCar(Car car, InsuranceDTO insuranceDto)
         {
-            foreach (var insurance in insurances)
+            Insurance insurance = createInsuranceInstance(insuranceDto);
+            if (!existsAnInsuranceWithType(insurance.TypeOfInsurance, car.Insurances))
             {
-                if (insurance.TypeOfInsurance.CompareTo(typeOfInsurance).Equals(0))
-                    return true;
-            };
-            return false;
-
+                car.Insurances.Add(insurance);
+            }
+            else
+            {
+                throw new Exception("Nu pot exista doua asigurari de acelasi tip pentru aceasi amasina");
+            }
         }
 
+        /*
+         * in:
+         * a string that specifies the specific type of the insurance
+         * a list of already existing insurances
+         * out: 
+         * true, there is at least one insurance with that type
+         * false, else
+         */
+        private static bool existsAnInsuranceWithType(string typeOfInsurance, List<Insurance> insurances)
+        {
+            return insurances.Exists(insurance => insurance.TypeOfInsurance.CompareTo(typeOfInsurance).Equals(0));
+        }
+
+        /*
+         * in: driver:Driver
+         * returns: a string with following structure: "NAME (EMAIL)"
+         */
         private static string getDriverTextFromDriver(Driver driver)
         {
             return driver.Name + " (" + driver.Email + ")";
         }
 
         /*
-         * recieves an insurance
-         * and based on typeOfInsurance creates an instance of that type (RCA, ITP...) with given data
+         * input: an insurance
+         * returns:
+         * an Insurance child (RCA, ITP, CASCO, ...) based on the value of TypeOfInsurance
          * 
-         * return null when typeOfInsurance is not a Child of Insurance
+         * Throws Exception  when typeOfInsurance is not a Child of Insurance
          */
         private static Insurance createInsuranceInstance(InsuranceDTO insurance)
         {
@@ -117,7 +142,7 @@ namespace AutoFleet.Mappers
                     newInsurance = new Rca();
                     break;
                 default:
-                    return null;
+                    throw new Exception("Tipul asigurarii nu este recunoscut.");
             }
             newInsurance.Id = insurance.Id;
             newInsurance.LastRenewal = insurance.LastRenewal;

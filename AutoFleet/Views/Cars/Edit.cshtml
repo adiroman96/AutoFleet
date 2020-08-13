@@ -80,7 +80,7 @@
             <div class="col-md-4">
                 <label class="control-label">Adauga: </label>
 
-                <select id="TypeOfNewInsurance" class="form-control" name="@("Insurances[" + i + "].TypeOfInsurance")" onchange="@("checkTypeOfNewInsurance(" + i + ")")">
+                <select id="TypeOfNewInsurance" class="form-control" name="@("NewInsurance.TypeOfInsurance")" onchange="@("checkTypeOfNewInsurance(" + i + ")")">
                     <option value=""></option>
                     <option value="Rovinieta">Rovinieta</option>
                     <option value="ITP">ITP</option>
@@ -91,14 +91,14 @@
 
             <div class="col-md-4">
                 <label class="control-label">Creat la data de: </label>
-                <input class="form-control" type="date" name="@("Insurances[" + i + "].LastRenewal")" />
+                <input class="form-control" type="date" name="@("NewInsurance.LastRenewal")" />
             </div>
 
             <div class="col-md-4 form-group">
                 <label class="control-label">Notificare cu X zile inainte</label>
 
                 <div class="input-groupmb-3">
-                    <select class="form-control" name="@("Insurances[" + i + "].ReminderInterval")">
+                    <select class="form-control" name="@("NewInsurance.ReminderInterval")">
                         <option value="1">1 zi</option>
                         <option value="2">2 zile</option>
                         <option value="5">5 zile</option>

@@ -61,14 +61,13 @@ namespace AutoFleet.Controllers
                 return NotFound();
             }
 
-            var car = await _context.Cars.FindAsync(id);
-            var insurances = _context.Insurances.ToList<Insurance>();
-
+            var car = await _context.Cars.FindAsync(id); // trying to find the car with specified id
             if (car == null)
             {
                 return NotFound();
             }
 
+            var insurances = _context.Insurances.ToList<Insurance>();// loading insurances of the car
             Driver driver = await GetDriver(car);
             List<Driver> availableDrivers = _context.Drivers.ToList<Driver>();
             CarDTO carDTO = CarDTOMapper.CarAndDriverToCarDTO(car, driver, availableDrivers);
@@ -81,7 +80,7 @@ namespace AutoFleet.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CarId, CarRegistrationNumber, CarManufacturingYear, DriverId, Insurances")] CarDTO carDTO)
+        public async Task<IActionResult> Edit(int id, [Bind("CarId, CarRegistrationNumber, CarManufacturingYear, DriverId, Insurances, NewInsurance")] CarDTO carDTO)
         {
             if (id != carDTO.CarId)
             {
@@ -143,59 +142,11 @@ namespace AutoFleet.Controllers
             return _context.Cars.Any(e => e.Id == id);
         }
 
-
-        public async Task<Car> GetCar(int? id)
-        {
-            if (id == null)
-            {
-                throw new ObjectNotFoundException();
-            }
-
-            Car car = await _context.Cars.FirstOrDefaultAsync(m => m.Id == id);
-            var insurances = _context.Insurances.ToList<Insurance>();
-
-            if (car == null)
-            {
-                throw new ObjectNotFoundException();
-            }
-
-            return car;
-        }
-
-        public async Task<Driver> GetDriver(Car car)
+        private async Task<Driver> GetDriver(Car car)
         {
             Driver driver = await _context.Drivers.FirstOrDefaultAsync(d => d.Cars.Contains<Car>(car));
 
             return driver;
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> CreateMock()
-        {
-            int nr = 28;
-
-            Car car = new Car();
-            car.ManufacturingYear = 2019;
-            car.RegistrationNumber = "SB" + nr + "XXX";
-
-            Insurance itp = new CASCO
-            {
-                LastRenewal = new DateTime(2019, 01, nr),
-            };
-            car.Insurances.Add(itp);
-
-            _context.Add(car);
-            //_context.Add(itp);
-
-            Driver driver = new Driver();
-            driver.Name = "Alex Mock";
-            driver.Email = "mock" + nr + "@fakedomain.com";
-            driver.Cars.Add(car);
-            _context.Add(driver);
-
-
-            await _context.SaveChangesAsync();
-            return Json("Obiecte adaugate");
         }
     }
 }
