@@ -141,7 +141,7 @@ namespace AutoFleet.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var driver = await _context.Drivers.FindAsync(id);
+            var driver = await _context.Drivers.Include(driver => driver.Cars).Where(driver => driver.Id == id).FirstOrDefaultAsync();
             _context.Drivers.Remove(driver);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
